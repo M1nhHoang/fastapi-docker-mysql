@@ -1,0 +1,22 @@
+version: '3.9'
+services:
+  my_sql:
+    container_name: my_sql
+    image: mysql:latest
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./init_db:/docker-entrypoint-initdb.d/:ro
+      - ./mysql_data/:/var/lib/mysql
+  models:
+    container_name: models
+    image: python:3.10-slim-buster
+    command: bash -c "pip install fastapi uvicorn aiomysql cryptography && cd api && uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
+    ports:
+      - 8000:8000
+    volumes:
+      - ./models:/api
+    depends_on:
+      - my_sql
