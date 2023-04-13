@@ -2,7 +2,7 @@
 
 ## Images
 
-Install images:
+Install images:<br>
 -docker pull python:3.10-slim-buster<br>
 -docker pull mysql
 
